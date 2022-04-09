@@ -22,7 +22,11 @@ namespace Player
         {
             Vector2 input = _input.Player.Movement.ReadValue<Vector2>();
 
-            if (input.magnitude > 0) Move(input);
+            if (input.magnitude > 0)
+            {
+                Move(input);
+                Rotate(input);
+            }
         }
 
         private void Move(Vector2 input)
@@ -32,6 +36,15 @@ namespace Player
             direction = _camera.transform.rotation * direction;
             direction.y = 0;
             _rigidbody.MovePosition(_rigidbody.position + direction * Time.deltaTime * _speed);
+        }
+
+        private void Rotate(Vector2 input)
+        {
+            Vector3 direction = _camera.transform.rotation * new Vector3(input.x, 0, input.y);
+            direction.y = 0;
+            Quaternion targetAngle = Quaternion.LookRotation(direction);
+            Quaternion angle = Quaternion.RotateTowards(transform.rotation, targetAngle, 15f);
+            transform.rotation = angle;
         }
 
         private void OnEnable() => _input.Enable();
