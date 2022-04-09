@@ -50,8 +50,8 @@ namespace Player
             if(plane.Raycast(ray, out float d))
             {
                 Vector3 point = ray.GetPoint(d);
-                // RotateInDirection(point, 95);
-                transform.LookAt(point, transform.up);
+                Vector3 direction = point - transform.position;
+                RotateInDirection(direction.normalized, 95);
             }   
         }
 
