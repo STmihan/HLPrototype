@@ -63,7 +63,7 @@ namespace PlayerLoop.StateMachine.States
 
         private void EnterInAimState(InputAction.CallbackContext callbackContext)
         {
-            Data.StateMachine.ChangeState(new AimingPlayerState(Data));
+            Data.StateMachine.ChangeState(new WeaponPlayerState(Data));
         }
     }
 }

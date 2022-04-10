@@ -1,4 +1,5 @@
-﻿using PlayerLoop.StateMachine;
+﻿using System;
+using PlayerLoop.StateMachine;
 using PlayerLoop.StateMachine.States;
 using UnityEngine;
 
@@ -10,6 +11,8 @@ namespace PlayerLoop
         [SerializeField] private PlayerStats _stats;
         [Space]
         [SerializeField] private Animator _animator;
+        [Space]
+        [SerializeField] private Weapon _activeWeapon;
 
         private Camera _camera;
         private PlayerInputs _input;
@@ -26,8 +29,10 @@ namespace PlayerLoop
             _rigidbody = GetComponent<Rigidbody>();
 
             _stateMachine = new PlayerStateMachine();
-            var data = new PlayerStateData(_camera, _input, _rigidbody, _stateMachine, _stats, _animator);
+            var data = new PlayerStateData(_camera, _input, _rigidbody, _stateMachine, _stats, _animator, _activeWeapon);
             _stateMachine.Initialize(new MovementPlayerState(data));
+            if(_animator.runtimeAnimatorController != _activeWeapon.Controller) 
+                _animator.runtimeAnimatorController = _activeWeapon.Controller;
         }
 
         private void FixedUpdate()
@@ -38,6 +43,13 @@ namespace PlayerLoop
         private void Update()
         {
             _stateMachine.Update();
+            
         }
+    }
+
+    [Serializable]
+    public class Weapon
+    {
+        public RuntimeAnimatorController Controller;
     }
 }

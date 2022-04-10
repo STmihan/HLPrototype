@@ -3,17 +3,20 @@ using UnityEngine.InputSystem;
 
 namespace PlayerLoop.StateMachine.States
 {
-    public class AimingPlayerState : PlayerState
+    public class WeaponPlayerState : PlayerState
     {
-        public AimingPlayerState(PlayerStateData data) : base(data) { }
+        private static readonly int IsAiming = Animator.StringToHash("IsAiming");
+        public WeaponPlayerState(PlayerStateData data) : base(data) { }
 
         public override void Enter()
         {
+            Data.Animator.SetBool(IsAiming, true);
             Data.Input.Player.Fire1.canceled += EnterInMoveState;
         }
         
         public override void Exit()
         {
+            Data.Animator.SetBool(IsAiming, false);
             Data.Input.Player.Fire1.canceled -= EnterInMoveState;
         }
 
