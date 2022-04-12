@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
+using Weapons;
 
 namespace PlayerLoop.StateMachine
 {
-    public class PlayerStateData
+    public class PlayerData
     {
-        public PlayerStateData(Camera camera, PlayerInputs input, Rigidbody rigidbody, PlayerStateMachine stateMachine, PlayerStats stats, Animator animator, Weapon activeWeapon)
+        public PlayerData(Camera camera, PlayerInputs input, Rigidbody rigidbody, PlayerStateMachine stateMachine, PlayerStats stats, Animator animator)
         {
             Camera = camera;
             Input = input;
@@ -12,7 +13,6 @@ namespace PlayerLoop.StateMachine
             StateMachine = stateMachine;
             Stats = stats;
             Animator = animator;
-            ActiveWeapon = activeWeapon;
         }
 
         public Camera Camera { get; }
@@ -22,6 +22,8 @@ namespace PlayerLoop.StateMachine
         public PlayerStats Stats { get; }
         public Animator Animator { get; }
         public Transform Transform => Rigidbody.transform;
-        public Weapon ActiveWeapon { get; }
+        public Weapon ActiveWeapon { get; private set; }
+
+        public void SetWeapon(Weapon weapon) => ActiveWeapon = weapon;
     }
 }

@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1826898def1d4b21b87157ecf4ed87bb, type: 3}
+  m_Name: Bow Weapon
+  m_EditorClassIdentifier: 
+  _controller: {fileID: 9100000, guid: 6567d5052c0fda64d857db677e9a9202, type: 2}
+  _overdrawClipName: Standing Aim Overdraw
+  _weaponPrefab: {fileID: -2349978366925073629, guid: 8f61a62d12c8f37478031e5d5b2f4cbb, type: 3}

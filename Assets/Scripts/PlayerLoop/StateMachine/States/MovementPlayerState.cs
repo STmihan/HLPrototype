@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
+using Utils;
 
 namespace PlayerLoop.StateMachine.States
 {
@@ -7,7 +8,7 @@ namespace PlayerLoop.StateMachine.States
     {
         private static readonly int Velocity = Animator.StringToHash("Velocity");
 
-        public MovementPlayerState(PlayerStateData data) : base(data) { }
+        public MovementPlayerState(PlayerData data) : base(data) { }
 
         public override void Enter()
         {
@@ -46,7 +47,7 @@ namespace PlayerLoop.StateMachine.States
         {
             Vector3 direction = Data.Camera.transform.rotation * new Vector3(input.x, 0, input.y);
             direction.y = 0;
-            PlayerUtils.RotateInDirection(Data.Transform, direction, 50);
+            Data.Transform.RotateTransformInDirection(direction, 50);
         }
         
         private void AnimationMove(float input)

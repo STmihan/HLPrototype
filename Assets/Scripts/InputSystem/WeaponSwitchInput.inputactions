@@ -1,0 +1,54 @@
+{
+    "name": "WeaponSwitchInput",
+    "maps": [
+        {
+            "name": "Weapon",
+            "id": "89b6ee0d-7186-413b-9b29-78ed0b537a88",
+            "actions": [
+                {
+                    "name": "1",
+                    "type": "Button",
+                    "id": "aa8b8050-4398-4a90-a78a-477cfe28c9f2",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "2",
+                    "type": "Button",
+                    "id": "214f9970-a9b2-494f-945b-8398de4cdd5a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "fb04a72a-d958-4a66-bec4-35d5db5809c4",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "069136a2-c880-4554-9e8e-10340c747f7a",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

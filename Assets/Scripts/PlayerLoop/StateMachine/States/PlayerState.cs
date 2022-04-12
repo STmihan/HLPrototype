@@ -2,9 +2,9 @@
 {
     public abstract class PlayerState
     {
-        protected PlayerStateData Data;
+        protected PlayerData Data;
 
-        protected PlayerState(PlayerStateData data)
+        protected PlayerState(PlayerData data)
         {
             Data = data;
         }

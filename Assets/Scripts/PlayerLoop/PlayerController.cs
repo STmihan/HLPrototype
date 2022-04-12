@@ -2,6 +2,8 @@
 using PlayerLoop.StateMachine;
 using PlayerLoop.StateMachine.States;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using Weapons;
 
 namespace PlayerLoop
 {
@@ -11,28 +13,46 @@ namespace PlayerLoop
         [SerializeField] private PlayerStats _stats;
         [Space]
         [SerializeField] private Animator _animator;
-        [Space]
-        [SerializeField] private Weapon _activeWeapon;
+
+        [Space, Header("Weapon")] 
+        [SerializeField] private Weapon[] _weapons;
+        [SerializeField] private Transform _weaponParent;
+        [SerializeField] private Transform _leftHand;
+        [SerializeField] private Transform _rightHand;
 
         private Camera _camera;
-        private PlayerInputs _input;
         private Rigidbody _rigidbody;
         private PlayerStateMachine _stateMachine;
+        private Weapon _activeWeapon;
+        private PlayerInputs _input;
+        public PlayerData Data { get; private set; }
 
-        private void OnEnable() => _input.Enable();
-        private void OnDisable() => _input.Disable();
+        private WeaponSwitchInput _weaponSwitchInput;
         
+        private void OnEnable()
+        {
+            _input.Enable();
+            _weaponSwitchInput.Enable();
+        }
+
+        private void OnDisable()
+        {
+            _input.Disable();
+            _weaponSwitchInput.Disable();
+        }
+
         private void Awake()
         {
             _input = new PlayerInputs();
+            _weaponSwitchInput = new WeaponSwitchInput();
             _camera = Camera.allCameras[0];
             _rigidbody = GetComponent<Rigidbody>();
-
             _stateMachine = new PlayerStateMachine();
-            var data = new PlayerStateData(_camera, _input, _rigidbody, _stateMachine, _stats, _animator, _activeWeapon);
-            _stateMachine.Initialize(new MovementPlayerState(data));
-            if(_animator.runtimeAnimatorController != _activeWeapon.Controller) 
-                _animator.runtimeAnimatorController = _activeWeapon.Controller;
+            WeaponSwitcherRegister();
+            
+            Data = new PlayerData(_camera, _input, _rigidbody, _stateMachine, _stats, _animator);
+            EquipWeapon(_weapons[0]);
+            _stateMachine.Initialize(new MovementPlayerState(Data));
         }
 
         private void FixedUpdate()
@@ -43,13 +63,27 @@ namespace PlayerLoop
         private void Update()
         {
             _stateMachine.Update();
-            
+            _activeWeapon.UpdateTransform(_leftHand, _rightHand);
         }
-    }
+        public void EquipWeapon(Weapon weapon)
+        {
+            if(weapon == null) return;
+            if (_activeWeapon != null)
+            {
+                _activeWeapon.DestroyPrefab();
+                Destroy(_activeWeapon);
+            }
+            _activeWeapon = Instantiate(weapon);
+            _animator.runtimeAnimatorController = _activeWeapon.Controller;
+            _activeWeapon.SpawnPrefab(_weaponParent);
+            _activeWeapon.UpdateTransform(_leftHand, _rightHand);
+            Data.SetWeapon(_activeWeapon);
+        }
 
-    [Serializable]
-    public class Weapon
-    {
-        public RuntimeAnimatorController Controller;
+        private void WeaponSwitcherRegister()
+        {
+            _weaponSwitchInput.Weapon._1.performed += delegate { EquipWeapon(_weapons[0]); };
+            _weaponSwitchInput.Weapon._2.performed += delegate { EquipWeapon(_weapons[1]); };
+        }
     }
 }
