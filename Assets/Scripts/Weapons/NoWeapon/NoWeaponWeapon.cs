@@ -1,4 +1,3 @@
-using PlayerLoop.StateMachine;
 using PlayerLoop.StateMachine.States;
 using UnityEngine;
 
@@ -9,14 +8,15 @@ namespace Weapons.NoWeapon
     {
         protected override WeaponPrefab WeaponPrefab { get; set; }
 
-        public override void WeaponAdd(PlayerData data)
+        public override void WeaponAdd()
         {
-            data.StateMachine.ChangeState(new MovementPlayerState(data));
+            base.WeaponAdd();
+            Data.StateMachine.ChangeState(new MovementPlayerState(Data));
         }
 
         public override void DestroyPrefab() { }
         public override void SpawnPrefab(Transform parent) { }
 
-        public override void WeaponUpdate(PlayerData data) { }
+        public override void WeaponUpdate() { }
     }
 }

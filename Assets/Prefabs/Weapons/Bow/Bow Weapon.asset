@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Bow Weapon
   m_EditorClassIdentifier: 
   _controller: {fileID: 9100000, guid: 6567d5052c0fda64d857db677e9a9202, type: 2}
-  _overdrawClipName: Standing Aim Overdraw
+  _arrowForce: 100
   _weaponPrefab: {fileID: -2349978366925073629, guid: 8f61a62d12c8f37478031e5d5b2f4cbb, type: 3}
+  _arrowPrefab: {fileID: 7387595565074824798, guid: c0eda18be9c39fc4daae81159c9f5623, type: 3}

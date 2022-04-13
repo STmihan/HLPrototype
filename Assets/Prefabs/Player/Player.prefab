@@ -2439,6 +2439,7 @@ MonoBehaviour:
   _weapons:
   - {fileID: 11400000, guid: d79fbff528e14744ca42d6702a49e773, type: 2}
   - {fileID: 11400000, guid: 73fcebbebbc256a458853b86b861052e, type: 2}
+  - {fileID: 11400000, guid: 10e9b25c1fa2190469d208cba729fb12, type: 2}
   _weaponParent: {fileID: 8502992741740028106}
   _leftHand: {fileID: 8502992742936466776}
   _rightHand: {fileID: 8502992742787899525}

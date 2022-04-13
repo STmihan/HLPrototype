@@ -1,23 +1,24 @@
 ﻿using System;
-using PlayerLoop.StateMachine;
 using PlayerLoop.StateMachine.States;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Utils;
 
 namespace Weapons.Bow
 {
     [CreateAssetMenu]
     public class BowWeapon : Weapon
     {
+        [SerializeField] private float _arrowForce;
+        
+        [SerializeField] private BowWeaponPrefab _weaponPrefab;
+        [SerializeField] private BowWeaponArrowPrefab _arrowPrefab;
+
+        public bool IsOverdrawing { get; private set; }
+        public Action OnAttackEnd;
         private static readonly int IsAiming = Animator.StringToHash("IsAiming");
 
-        [SerializeField] private string _overdrawClipName = "Standing Aim Overdraw";
-        [SerializeField] private BowWeaponPrefab _weaponPrefab;
-
-        private PlayerData _data;
-        
-        private bool _isOverdrawing;
-        private event Action<bool> ChangeOverdrawing;
+        private BowWeaponArrowPrefab _arrow;
 
         protected override WeaponPrefab WeaponPrefab
         {
@@ -30,51 +31,64 @@ namespace Weapons.Bow
             WeaponPrefab.LeftHandPosition.position = leftHand.position;
             WeaponPrefab.LeftHandPosition.rotation = leftHand.rotation;
             WeaponPrefab.LeftHandPosition.Rotate(0, 0, 90f, Space.Self);
-            if (_isOverdrawing)
+            if (IsOverdrawing)
             {
                 WeaponPrefab.RightHandPosition.position = Vector3.Lerp(WeaponPrefab.RightHandPosition.position,
-                    rightHand.position, Time.deltaTime * 15);
+                    rightHand.position, Time.deltaTime * 30);
                 WeaponPrefab.RightHandPosition.rotation = rightHand.rotation;
             }
             else
             {
                 WeaponPrefab.RightHandPosition.position = Vector3.Lerp(WeaponPrefab.RightHandPosition.position,
-                    _weaponPrefab.StringPosition.position, Time.deltaTime * 15);
+                    _weaponPrefab.StringPosition.position, Time.deltaTime * 30);
                 WeaponPrefab.RightHandPosition.rotation = rightHand.rotation;
             }
         }
 
-        public override void WeaponAdd(PlayerData data)
+        public override void WeaponAdd()
         {
-            _data = data;
-            data.Animator.SetBool(IsAiming, true);
-            data.Input.Player.Fire1.canceled += EnterInMoveState;
-            _isOverdrawing = false;
-            ChangeOverdrawing += delegate(bool b) { _isOverdrawing = b; };
+            base.WeaponAdd();
+            OnAttackEnd += EndAttack;
+            Data.Animator.SetBool(IsAiming, true);
+            Data.Input.Player.Fire1.canceled += OnCancel;
         }
 
-        public override void WeaponUpdate(PlayerData data)
+        private void EndAttack()
         {
-            base.WeaponUpdate(data);
-            Overdraw();
+            Data.StateMachine.ChangeState(new MovementPlayerState(Data));
         }
 
-        public override void WeaponRemove(PlayerData data)
+        public void Overdraw()
         {
-            data.Animator.SetBool(IsAiming, false);
-            _isOverdrawing = false;
-            data.Input.Player.Fire1.canceled -= EnterInMoveState;
+            IsOverdrawing = true;
+            Data.Input.Player.Fire1.canceled -= OnCancel;
+            _arrow = Instantiate(_arrowPrefab);
         }
 
-        private void EnterInMoveState(InputAction.CallbackContext callbackContext)
+        public void SetArrow()
         {
-            _data.StateMachine.ChangeState(new MovementPlayerState(_data));
+            _arrow.transform.position = _weaponPrefab.RightHandPosition.position;
+            _arrow.transform.LookAt(_weaponPrefab.LeftHandPosition.position);
+            // _arrow.transform.Rotate(_arrow.transform.right, 60f, Space.Self);
         }
-        
-        private void Overdraw()
+
+        public void Shoot()
         {
-            bool isName = _data.Animator.GetCurrentAnimatorStateInfo(1).IsName(_overdrawClipName);
-            if (_isOverdrawing != isName) ChangeOverdrawing?.Invoke(isName);
+            IsOverdrawing = false;
+            _arrow.Shoot(_arrowForce);
+            _arrow = null;
+        }
+
+        public void Cancel()
+        {
+            Data.Animator.SetBool(IsAiming, false);
+            Data.Animator.SetTrigger("Cancel");
+            EndAttack();
+        }
+
+        private void OnCancel(InputAction.CallbackContext obj)
+        {
+            if(!IsOverdrawing) Cancel();
         }
     }
 }

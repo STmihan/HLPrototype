@@ -2,7 +2,7 @@
 {
     public abstract class PlayerState
     {
-        protected PlayerData Data;
+        protected readonly PlayerData Data;
 
         protected PlayerState(PlayerData data)
         {

@@ -44,6 +44,15 @@ public partial class @WeaponSwitchInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""3"",
+                    ""type"": ""Button"",
+                    ""id"": ""47367ecc-769f-442e-9ad8-98e0ed8861cb"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -68,6 +77,17 @@ public partial class @WeaponSwitchInput : IInputActionCollection2, IDisposable
                     ""action"": ""2"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d3bcdefc-44c9-4447-a941-49b9dd51bf46"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""3"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -78,6 +98,7 @@ public partial class @WeaponSwitchInput : IInputActionCollection2, IDisposable
         m_Weapon = asset.FindActionMap("Weapon", throwIfNotFound: true);
         m_Weapon__1 = m_Weapon.FindAction("1", throwIfNotFound: true);
         m_Weapon__2 = m_Weapon.FindAction("2", throwIfNotFound: true);
+        m_Weapon__3 = m_Weapon.FindAction("3", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -139,12 +160,14 @@ public partial class @WeaponSwitchInput : IInputActionCollection2, IDisposable
     private IWeaponActions m_WeaponActionsCallbackInterface;
     private readonly InputAction m_Weapon__1;
     private readonly InputAction m_Weapon__2;
+    private readonly InputAction m_Weapon__3;
     public struct WeaponActions
     {
         private @WeaponSwitchInput m_Wrapper;
         public WeaponActions(@WeaponSwitchInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @_1 => m_Wrapper.m_Weapon__1;
         public InputAction @_2 => m_Wrapper.m_Weapon__2;
+        public InputAction @_3 => m_Wrapper.m_Weapon__3;
         public InputActionMap Get() { return m_Wrapper.m_Weapon; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -160,6 +183,9 @@ public partial class @WeaponSwitchInput : IInputActionCollection2, IDisposable
                 @_2.started -= m_Wrapper.m_WeaponActionsCallbackInterface.On_2;
                 @_2.performed -= m_Wrapper.m_WeaponActionsCallbackInterface.On_2;
                 @_2.canceled -= m_Wrapper.m_WeaponActionsCallbackInterface.On_2;
+                @_3.started -= m_Wrapper.m_WeaponActionsCallbackInterface.On_3;
+                @_3.performed -= m_Wrapper.m_WeaponActionsCallbackInterface.On_3;
+                @_3.canceled -= m_Wrapper.m_WeaponActionsCallbackInterface.On_3;
             }
             m_Wrapper.m_WeaponActionsCallbackInterface = instance;
             if (instance != null)
@@ -170,6 +196,9 @@ public partial class @WeaponSwitchInput : IInputActionCollection2, IDisposable
                 @_2.started += instance.On_2;
                 @_2.performed += instance.On_2;
                 @_2.canceled += instance.On_2;
+                @_3.started += instance.On_3;
+                @_3.performed += instance.On_3;
+                @_3.canceled += instance.On_3;
             }
         }
     }
@@ -178,5 +207,6 @@ public partial class @WeaponSwitchInput : IInputActionCollection2, IDisposable
     {
         void On_1(InputAction.CallbackContext context);
         void On_2(InputAction.CallbackContext context);
+        void On_3(InputAction.CallbackContext context);
     }
 }

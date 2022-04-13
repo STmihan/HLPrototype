@@ -10,6 +10,8 @@ namespace PlayerLoop
     [RequireComponent(typeof(Rigidbody))]
     public class PlayerController : MonoBehaviour
     {
+        public static PlayerData Data { get; private set; }
+        
         [SerializeField] private PlayerStats _stats;
         [Space]
         [SerializeField] private Animator _animator;
@@ -25,7 +27,6 @@ namespace PlayerLoop
         private PlayerStateMachine _stateMachine;
         private Weapon _activeWeapon;
         private PlayerInputs _input;
-        public PlayerData Data { get; private set; }
 
         private WeaponSwitchInput _weaponSwitchInput;
         
@@ -84,6 +85,7 @@ namespace PlayerLoop
         {
             _weaponSwitchInput.Weapon._1.performed += delegate { EquipWeapon(_weapons[0]); };
             _weaponSwitchInput.Weapon._2.performed += delegate { EquipWeapon(_weapons[1]); };
+            _weaponSwitchInput.Weapon._3.performed += delegate { EquipWeapon(_weapons[2]); };
         }
     }
 }

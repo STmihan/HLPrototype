@@ -9,17 +9,17 @@ namespace PlayerLoop.StateMachine.States
 
         public override void Enter()
         {
-            Weapon.WeaponAdd(Data);
+            Weapon.WeaponAdd();
         }
         
         public override void Exit()
         {
-            Weapon.WeaponRemove(Data);
+            Weapon.WeaponRemove();
         }
 
         public override void FixedUpdate()
         {
-            Weapon.WeaponUpdate(Data);
+            Weapon.WeaponUpdate();
         }
     }
 }
