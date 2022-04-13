@@ -1,13 +1,11 @@
 ﻿using PlayerLoop;
 using UnityEngine;
 
-namespace Weapons.CombatWeapon
+namespace Weapons.ComboWeapon
 {
     public class ComboStateBehaviour : StateMachineBehaviour
     {
-        [SerializeField] private int _combo;
         private ComboWeapon _weapon;
-        private static readonly int Combo = Animator.StringToHash("Combo");
         private static readonly int Attack = Animator.StringToHash("Attack");
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -22,7 +20,6 @@ namespace Weapons.CombatWeapon
             if(_weapon == null) return;
             if (_weapon.InputReceived)
             {
-                animator.SetInteger(Combo, _combo + 1);
                 animator.SetTrigger(Attack);
                 _weapon.StopListenInput();
             }

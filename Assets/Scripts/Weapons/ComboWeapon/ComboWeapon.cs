@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Weapons.CombatWeapon
+namespace Weapons.ComboWeapon
 {
     public class ComboWeapon : Weapon
     {

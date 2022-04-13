@@ -1,7 +1,7 @@
 ﻿using PlayerLoop;
 using UnityEngine;
 
-namespace Weapons.CombatWeapon
+namespace Weapons.ComboWeapon
 {
     public class ComboEndListenerBehaviour : StateMachineBehaviour
     {

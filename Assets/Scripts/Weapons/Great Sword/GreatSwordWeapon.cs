@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using PlayerLoop.StateMachine.States;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Weapons.CombatWeapon;
 
 namespace Weapons.Great_Sword
 {
     [CreateAssetMenu]
-    public class GreatSwordWeapon : ComboWeapon
+    public class GreatSwordWeapon : ComboWeapon.ComboWeapon
     {
         [SerializeField] private GreatSwordWeaponPrefab _weaponPrefab;
 
