@@ -2,12 +2,11 @@
 using PlayerLoop.StateMachine;
 using PlayerLoop.StateMachine.States;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using Weapons;
 
 namespace PlayerLoop
 {
-    [RequireComponent(typeof(Rigidbody))]
+    [RequireComponent(typeof(CharacterController))]
     public class PlayerController : MonoBehaviour
     {
         public static PlayerData Data { get; private set; }
@@ -23,13 +22,15 @@ namespace PlayerLoop
         [SerializeField] private Transform _rightHand;
 
         private Camera _camera;
-        private Rigidbody _rigidbody;
+        private CharacterController _characterController;
         private PlayerStateMachine _stateMachine;
         private Weapon _activeWeapon;
         private PlayerInputs _input;
-
-        private WeaponSwitchInput _weaponSwitchInput;
         
+        private WeaponSwitchInput _weaponSwitchInput;
+
+        private Action<string> _onAnimationString;
+            
         private void OnEnable()
         {
             _input.Enable();
@@ -47,12 +48,13 @@ namespace PlayerLoop
             _input = new PlayerInputs();
             _weaponSwitchInput = new WeaponSwitchInput();
             _camera = Camera.allCameras[0];
-            _rigidbody = GetComponent<Rigidbody>();
+            _characterController = GetComponent<CharacterController>();
             _stateMachine = new PlayerStateMachine();
             WeaponSwitcherRegister();
             
-            Data = new PlayerData(_camera, _input, _rigidbody, _stateMachine, _stats, _animator);
+            Data = new PlayerData(_camera, _input, _characterController, _stateMachine, _stats, _animator);
             EquipWeapon(_weapons[0]);
+            Data.OnAnimationString = _onAnimationString;
             _stateMachine.Initialize(new MovementPlayerState(Data));
         }
 
@@ -86,6 +88,11 @@ namespace PlayerLoop
             _weaponSwitchInput.Weapon._1.performed += delegate { EquipWeapon(_weapons[0]); };
             _weaponSwitchInput.Weapon._2.performed += delegate { EquipWeapon(_weapons[1]); };
             _weaponSwitchInput.Weapon._3.performed += delegate { EquipWeapon(_weapons[2]); };
+        }
+
+        public void AnimationString(string str)
+        {
+            Data.OnAnimationString?.Invoke(str);
         }
     }
 }

@@ -3,9 +3,14 @@ guid: 23188e25acb268c41a4479f0e2b24a08
 ModelImporter:
   serializedVersion: 21202
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MariaMat.001
+    second: {fileID: 2100000, guid: 0ae83e4a6942483488c20aeebb7347f9, type: 2}
   materials:
-    materialImportMode: 0
+    materialImportMode: 2
     materialName: 0
     materialSearch: 1
     materialLocation: 1

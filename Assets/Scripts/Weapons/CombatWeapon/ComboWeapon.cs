@@ -11,7 +11,7 @@ namespace Weapons.CombatWeapon
 
         protected override WeaponPrefab WeaponPrefab { get; set; }
 
-        protected void Attack()
+        protected virtual void Attack()
         {
             if (!CanReceiveInput) return;
             InputReceived = true;

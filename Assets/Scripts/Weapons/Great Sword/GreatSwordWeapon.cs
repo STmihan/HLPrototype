@@ -1,5 +1,8 @@
-﻿using PlayerLoop.StateMachine.States;
+﻿using System.Collections;
+using System.Collections.Generic;
+using PlayerLoop.StateMachine.States;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Weapons.CombatWeapon;
 
 namespace Weapons.Great_Sword
@@ -28,15 +31,25 @@ namespace Weapons.Great_Sword
         {
             base.WeaponAdd();
             Data.Animator.SetLayerWeight(1, 0);
-            Attack();
-            Data.Input.Player.Fire1.performed += _ => Attack();
+            Data.Input.Player.Fire1.performed += Fire1OnPerformed;
             OnComboEnd += () => Data.StateMachine.ChangeState(new MovementPlayerState(Data));
+            Data.OnAnimationString += OnAnimationString;
+        }
+
+        private void Fire1OnPerformed(InputAction.CallbackContext obj) => Attack();
+
+        private void OnAnimationString(string str)
+        {
+            if(str == "PlayVFX")
+                _weaponPrefab.PlayVFX();
         }
 
         public override void WeaponRemove()
         {
             base.WeaponRemove();
             Data.Animator.SetLayerWeight(1, 1);
+            Data.OnAnimationString -= OnAnimationString;
+            Data.Input.Player.Fire1.performed -= Fire1OnPerformed;
         }
     }
 }

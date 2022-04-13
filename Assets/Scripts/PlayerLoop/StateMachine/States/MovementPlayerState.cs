@@ -40,7 +40,7 @@ namespace PlayerLoop.StateMachine.States
             Vector3 direction = new Vector3(input.x, 0, input.y);
             direction = Data.Camera.transform.rotation * direction;
             direction.y = 0;
-            Data.Rigidbody.MovePosition(Data.Rigidbody.position + direction * Time.deltaTime * Data.Stats.Speed);
+            Data.CharacterController.Move(direction * Time.deltaTime * Data.Stats.Speed);
         }
 
         private void Rotate(Vector2 input)
