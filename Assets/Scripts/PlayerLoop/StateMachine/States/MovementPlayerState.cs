@@ -24,9 +24,9 @@ namespace PlayerLoop.StateMachine.States
         public override void FixedUpdate()
         {
             Vector2 input = Data.Input.Player.Movement.ReadValue<Vector2>();
-
-            if (input.magnitude > 0)
+            if (input != Vector2.zero)
             {
+                Debug.Log(input.magnitude);
                 Move(input);
                 Rotate(input);
             }
@@ -64,7 +64,7 @@ namespace PlayerLoop.StateMachine.States
 
         private void EnterInAimState(InputAction.CallbackContext callbackContext)
         {
-            Data.StateMachine.ChangeState(new WeaponPlayerState(Data));
+            Data.StateMachine.ChangeState(new WeaponPlayerState(Data, callbackContext));
         }
     }
 }

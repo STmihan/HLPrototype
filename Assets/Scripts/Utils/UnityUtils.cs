@@ -19,9 +19,18 @@ namespace Utils
             return @event;
         }
     
-        public static void RotateTransformInDirection(this Transform transformToRotate, Vector3 direction, float maxDegreesDelta)
+        public static void RotateTransformInDirection(this Transform transformToRotate, Vector3 direction, float maxDegreesDelta, Space relativeTo = Space.Self)
         {
-            Quaternion targetAngle = Quaternion.LookRotation(direction, transformToRotate.up);
+            Quaternion targetAngle = Quaternion.identity;
+            switch (relativeTo)
+            {
+                case Space.World:
+                    targetAngle = Quaternion.LookRotation(direction, Vector3.up);
+                    break;
+                case Space.Self:
+                    targetAngle = Quaternion.LookRotation(direction, transformToRotate.up);
+                    break;
+            }
             Quaternion angle = Quaternion.RotateTowards(transformToRotate.rotation, targetAngle, maxDegreesDelta);
             transformToRotate.rotation = angle;
         }

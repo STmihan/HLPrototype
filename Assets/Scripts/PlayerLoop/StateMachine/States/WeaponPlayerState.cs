@@ -1,11 +1,16 @@
-﻿using Weapons;
+﻿using UnityEngine.InputSystem;
+using Weapons;
 
 namespace PlayerLoop.StateMachine.States
 {
     public class WeaponPlayerState : PlayerState
     {
         private Weapon Weapon => Data.ActiveWeapon;
-        public WeaponPlayerState(PlayerData data) : base(data) { }
+
+        public WeaponPlayerState(PlayerData data, InputAction.CallbackContext callbackContext) : base(data)
+        {
+            Weapon.IsGamepad = callbackContext.control.device is Gamepad;
+        }
 
         public override void Enter()
         {
